@@ -1,5 +1,6 @@
 require_relative 'player'
 require_relative 'die'
+require_relative 'game_turn'
 
 class Game
 	attr_reader :title
@@ -16,15 +17,11 @@ class Game
 	def play
 		puts "There are #{@players.size} players in #{@title}."
 		@players.each do |player|
-			die = Die.new
-			case die.roll
-				when 1..2
-					player.blam
-				when 3..4
-					puts "#{player.name} is skipped."
-				else 5..6
-					player.w00t
-				end
+			puts player
+		end
+		@players.each do |player|
+			GameTurn.take_turn(player)
+			puts player
 		end
 	end
 end

@@ -31,6 +31,7 @@ class Player
 	end
 
 	def strong?
+		#returns true if player's health is greater than 100
 		@health > 100
 	end
 end
