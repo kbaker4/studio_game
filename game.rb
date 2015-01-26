@@ -28,7 +28,7 @@ class Game
 		end
 
 		1.upto(rounds) do |round|
-			puts "\nRoud #{round}:"
+			puts "\nRound #{round}:"
 			@players.each do |player|
 				GameTurn.take_turn(player)
 				puts player
