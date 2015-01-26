@@ -15,23 +15,23 @@ describe Game do
 	it "player's health increases by 15 if a high number is rolled" do
 		Die.any_instance.stub(:roll).and_return(5)
 
-		@game.play
+		@game.play(2)
 
-		@player.health.should == @initial_health + 15
+		@player.health.should == @initial_health + (15 * 2)
 	end
 
 	it "player's health decreases by 10 if a low number is rolled" do
 		Die.any_instance.stub(:roll).and_return(1)
 
-		@game.play
+		@game.play(2)
 
-		@player.health.should == @initial_health - 10
+		@player.health.should == @initial_health - (10 * 2)
 	end
 
 	it "player's health remains the same if a middle number is rolled" do
 		Die.any_instance.stub(:roll).and_return(3)
 
-		@game.play
+		@game.play(2)
 
 		@player.health.should == @initial_health
 	end	

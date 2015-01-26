@@ -34,8 +34,8 @@ class Player
 		#returns true if player's health is greater than 100
 		@health > 100
 	end
+
+	def <=>(other)
+		other.score <=> score
+	end
 end
-
-player = Player.new("Kevin")
-
-puts player.strong?
