@@ -50,4 +50,10 @@ class Player
 	def points
 		@found_treasures.values.reduce(0, :+)
 	end
+
+	def each_found_treasure
+		@found_treasures.each do |key, val|
+			yield Treasure.new(key, val)
+		end
+	end
 end

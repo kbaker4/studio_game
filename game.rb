@@ -28,11 +28,14 @@ class Game
 		end
 
 		1.upto(rounds) do |round|
-			puts "\nRound #{round}:"
-			@players.each do |player|
-				GameTurn.take_turn(player)
-				puts player
+			if block_given?
+				break if yield
 			end
+				puts "\nRound #{round}:"
+				@players.each do |player|
+					GameTurn.take_turn(player)
+					puts player
+				end
 		end
 	end
 
@@ -40,7 +43,7 @@ class Game
 		strong, wimpy = @players.partition do |player|
 			player.strong?
 		end
-		puts "Knucklehead Statistics:"
+		puts "\nKnucklehead Statistics:"
 		puts "\n#{strong.length} strong players:"
 		strong.each { |player| print_name_and_health(player) }
 		puts "\n#{wimpy.length} wimpy players:"
@@ -56,6 +59,14 @@ class Game
 
 		puts "\nGrand Total Points:"
 		puts "#{total_points} total points."
+		@players.sort.each do |player| 
+			puts "\n#{player.name}'s point totals"
+			player.each_found_treasure do |treasure|
+				puts "#{treasure.points} total #{treasure.name} points."
+			end
+			puts "#{player.points} grand total points."
+		end
+
 	end
 
 	def print_name_and_health(player)
