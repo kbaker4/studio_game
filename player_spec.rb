@@ -3,7 +3,7 @@ require_relative 'player'
 describe Player do
 
 	before do
-		@initial_health = 50
+		@initial_health = 150
 		@player = Player.new("larry", @initial_health)
 
 		$stdout = StringIO.new
@@ -14,11 +14,14 @@ describe Player do
 	end
 
 	it "has an initial health" do
-		@player.health.should == 50
+		@player.health.should == 150
 	end
 
 	it "has a string representation" do
-		@player.to_s.should == "I'm Larry with a health of 50 and a score of 55."
+		@player.found_treasure(Treasure.new(:hammer, 50))
+  		@player.found_treasure(Treasure.new(:hammer, 50))
+
+  		@player.to_s.should == "I'm Larry with health = 150, points = 100, and score = 250."
 	end
 
 	it "computes a score as the sum of its health and points" do
