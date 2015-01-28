@@ -10,5 +10,7 @@ class Die
 	end
 end
 
+if __FILE__ == $0
 d = Die.new
 puts d.number
+end

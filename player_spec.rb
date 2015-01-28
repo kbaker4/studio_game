@@ -3,7 +3,7 @@ require_relative 'player'
 describe Player do
 
 	before do
-		@initial_health = 50
+		@initial_health = 150
 		@player = Player.new("larry", @initial_health)
 
 		$stdout = StringIO.new
@@ -14,11 +14,14 @@ describe Player do
 	end
 
 	it "has an initial health" do
-		@player.health.should == 50
+		@player.health.should == 150
 	end
 
 	it "has a string representation" do
-		@player.to_s.should == "I'm Larry with a health of 50 and a score of 55."
+		@player.found_treasure(Treasure.new(:hammer, 50))
+  		@player.found_treasure(Treasure.new(:hammer, 50))
+
+  		@player.to_s.should == "I'm Larry with health = 150, points = 100, and score = 250."
 	end
 
 	it "computes a score as the sum of its health and points" do
@@ -75,5 +78,32 @@ describe Player do
 		end
 	end
 
+	it "yields each found treasure and its total points" do
+ 		@player.found_treasure(Treasure.new(:skillet, 100))
+  		@player.found_treasure(Treasure.new(:skillet, 100))
+  		@player.found_treasure(Treasure.new(:hammer, 50))
+  		@player.found_treasure(Treasure.new(:bottle, 5))
+  		@player.found_treasure(Treasure.new(:bottle, 5))
+  		@player.found_treasure(Treasure.new(:bottle, 5))
+  		@player.found_treasure(Treasure.new(:bottle, 5))
+  		@player.found_treasure(Treasure.new(:bottle, 5))
+  
+  		yielded = []
+  		@player.each_found_treasure do |treasure|
+   			yielded << treasure
+  		end
+  
+  		yielded.should == [
+   		Treasure.new(:skillet, 200), 
+    	Treasure.new(:hammer, 50), 
+    	Treasure.new(:bottle, 25)
+ 		]
+		end
 
+		it "can be created from a CSV string" do  
+  			player = Player.from_csv("larry,150")
+
+  			player.name.should == "Larry"
+  			player.health.should == 150
+		end
 end

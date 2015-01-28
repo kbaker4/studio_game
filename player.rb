@@ -17,7 +17,12 @@ class Player
 	end
 
 	def to_s
-		"I'm #{@name} with a health of #{@health} and a score of #{score}."
+		"I'm #{@name} with health = #{@health}, points = #{points}, and score = #{score}."
+	end
+
+	def self.from_csv(string)
+		name, health = string.split(',')
+		player = Player.new(name, Integer(health))
 	end
 
 
@@ -38,5 +43,11 @@ class Player
 
 	def points
 		@found_treasures.values.reduce(0, :+)
+	end
+
+	def each_found_treasure
+		@found_treasures.each do |key, val|
+			yield Treasure.new(key, val)
+		end
 	end
 end
