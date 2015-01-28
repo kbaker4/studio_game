@@ -15,6 +15,12 @@ class Game
 		@players.push(player)
 	end
 
+	def load_players(from_file)
+		File.readlines(from_file).each do |line|
+			add_player(Player.from_csv(line))
+		end
+	end
+
 	def play(rounds)
 		puts "There are #{@players.size} players in #{@title}."
 		@players.each do |player|
@@ -54,8 +60,8 @@ class Game
 			puts "#{player.points} grand total points"
 		end
 
-		puts "\nKnucklehead High Scores:"
-		@players.sort.each { |player| puts "#{player.name.ljust(20, '.')}#{player.score}" }
+		puts "\n#{@title} High Scores:"
+		@players.sort.each { |player| puts print_high_scores(player) }
 
 		puts "\nGrand Total Points:"
 		puts "#{total_points} total points."
@@ -67,6 +73,17 @@ class Game
 			puts "#{player.points} grand total points."
 		end
 
+	end
+
+	def print_high_scores(player)
+		"#{player.name.ljust(20, '.')}#{player.score}"
+	end
+
+	def save_high_scores(filename="high_scores.txt")
+		File.open(filename, "w") do |file|
+			file.puts "#{@title} High Scores:"
+			@players.sort.each { |player| file.puts print_high_scores(player) }
+		end
 	end
 
 	def print_name_and_health(player)

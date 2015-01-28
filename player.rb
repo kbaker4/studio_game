@@ -18,6 +18,11 @@ class Player
 		"I'm #{@name} with health = #{@health}, points = #{points}, and score = #{score}."
 	end
 
+	def self.from_csv(string)
+		name, health = string.split(',')
+		player = Player.new(name, Integer(health))
+	end
+
 	def blam
 		@health -= 10
 		puts "#{@name} got blammed!"
